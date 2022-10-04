@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import CreateSyllabus from "./pages/syllabus/createSyllabus";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <header
+        style={{
+          height: 50,
+          width: "100%",
+        }}
+      ></header>
+      <div
+        style={{
+          display: "flex",
+        }}
+      >
+        <div
+          className="navigateHeader"
+          style={{
+            height: "100vh",
+            width: 290,
+          }}
+        ></div>
+        <CreateSyllabus />
+      </div>
     </div>
   );
 }

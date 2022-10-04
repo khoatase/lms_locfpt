@@ -1,0 +1,50 @@
+:root {
+  --color-bg-gray: #cccccc;
+  --color-process-current: #1e2ede;
+}
+
+.createHeader {
+  display: flex;
+  align-items: baseline;
+}
+
+.titleCreateSyll {
+  padding: 20px 30px 0px 20px;
+}
+
+.process {
+  position: relative;
+}
+
+.processCreate {
+  width: 400px;
+  height: 14px;
+  background-color: var(--color-bg-gray);
+  border-radius: 10px;
+}
+
+.titleProcess {
+  width: 400px;
+  justify-content: space-around;
+  display: flex;
+}
+
+.processCurrent {
+  background-color: var(--color-process-current);
+  height: 14px;
+  border-radius: 10px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.circlePoint {
+  width: 11px;
+  height: 11px;
+  float: right;
+  background-color: white;
+  border-radius: 50%;
+  margin-right: 1px;
+}

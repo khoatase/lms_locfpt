@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,29 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-header: #0d3b66;
+  --color-base: #fffae6;
+}
+
+body {
+  background-color: var(--color-base);
+}
+
+header {
+  background-color: var(--color-header);
+}
+
+.navigateHeader {
+  background-color: white;
 }
