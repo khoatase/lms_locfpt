@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const ProcessCreate = (props) => {
   const { data, indexProcess } = props;
