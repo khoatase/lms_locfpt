@@ -113,7 +113,22 @@ label {
   color: var(--color-bg-gray);
 }
 
+/* .menu {
+  border-bottom: 1px solid black;
+} */
+
 .menu p {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+}
+
+
+/* .hr {
+  background-color: black;
+} */
+
+.general {
+  border-top: 1px solid black;
+  height: 500px;
+  padding-left: 30px;
 }

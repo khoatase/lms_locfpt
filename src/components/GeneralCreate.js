@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 export class GeneralCreate extends Component {
   render() {
     return (
-      <div>GeneralCreate</div>
+      <div className='bg-white general'>GeneralCreate</div>
     )
   }
 }

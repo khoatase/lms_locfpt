@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 export class OthersCreate extends Component {
   render() {
     return (
-      <div>OthersCreate</div>
+      <div className='bg-white general'>OthersCreate</div>
     )
   }
 }

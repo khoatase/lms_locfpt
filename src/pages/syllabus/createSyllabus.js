@@ -5,7 +5,7 @@ import OutlineCreate from "../../components/OutlineCreate";
 import ProcessCreate from "../../components/ProcessCreate";
 import "./styles/style.css";
 
-const initialDataProcess = ["General", "Outline", "Other", "Done"];
+const initialDataProcess = ["General", "Outline", "Others", "Done"];
 const initialDataTimeLocation = [
   { name: "Assignment/Lab", percent: 0, color: "#F4BE37" },
   { name: "Concept/Lecture", percent: 0, color: "#FF9F40" },
@@ -29,10 +29,19 @@ class CreateSyllabus extends React.Component {
 
   onChangeHandler = (e) => {
     const { name, value } = e.target;
-    this.setState({
-      ...this.state,
-      [name]: value,
-    });
+    if (name !== "syllName") {
+      let findIndex = initialDataProcess.findIndex((item) => item === value);
+      this.setState({
+        ...this.state,
+        [name]: value,
+        indexProcess: ++findIndex,
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        [name]: value,
+      });
+    }
   };
 
   // styleBgColor = () => {
@@ -53,8 +62,8 @@ class CreateSyllabus extends React.Component {
         </div>
         <div className="createContent">
           <div className="contentLeft">
-            <div className="p-5">
-              <div className="flex justify-start items-center pb-5">
+            <div className="">
+              <div className="flex justify-start items-center p-5">
                 <div className="syllabusName">
                   <label className="mr-2" htmlFor="syllName">
                     Syllabus Name*
@@ -82,7 +91,7 @@ class CreateSyllabus extends React.Component {
                 </div>
               </div>
               <div>
-                <div className="flex w-8/12 justify-between text-center text-white menu">
+                <div className="flex w-8/12 justify-between text-center text-white pb-1 menu">
                   <p
                     className="w-3/5 cursor-pointer"
                     style={{
@@ -135,9 +144,14 @@ class CreateSyllabus extends React.Component {
                     Others
                   </p>
                 </div>
-                <GeneralCreate />
-                <OutlineCreate />
-                <OthersCreate />
+
+                {this.state.menuCurrent === "General" ? (
+                  <GeneralCreate />
+                ) : this.state.menuCurrent === "Outline" ? (
+                  <OutlineCreate />
+                ) : (
+                  <OthersCreate />
+                )}
               </div>
             </div>
           </div>
