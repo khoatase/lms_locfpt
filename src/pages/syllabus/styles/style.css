@@ -39,10 +39,12 @@
 .processCurrent {
   background-color: var(--color-process-current);
   border-radius: 10px;
+  height: 14px;
 }
 
 .circlePoint {
   border-radius: 50%;
+  margin-right: 1px;
 }
 
 /* Create Content */
@@ -53,14 +55,13 @@
 }
 
 .contentLeft {
-  width: 80%;
+  width: 75%;
   border-right: 1px solid black;
 }
 
-/* .contentRight {
-  width: 20%;
-  height: 20px;
-} */
+.contentRight {
+  width: 25%;
+}
 
 /* .inforSyllabus {
   display: flex;
@@ -122,7 +123,6 @@ label {
   border-top-right-radius: 20px;
 }
 
-
 /* .hr {
   background-color: black;
 } */
@@ -131,4 +131,42 @@ label {
   border-top: 1px solid black;
   height: 500px;
   padding-left: 30px;
+}
+
+.timeAllocation {
+  width: 100%;
+  padding-top: 125px;
+  display: flex;
+  justify-content: center;
+}
+
+.time {
+  width: 230px;
+  height: 350px;
+  background-color: white;
+  box-shadow: "1px 10px 9px #F4AAB9";
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.time h3 {
+  text-align: center;
+  padding: 5px 0;
+  background-color: #2d3748;
+  color: white;
+  font-weight: 600;
+}
+
+.pieChart {
+  padding: 10px 0px;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.timeDetails {
+  width: 170px;
+  height: 150px;
+  margin: 0 auto;
+  padding: 10px 0px;
 }

@@ -3,6 +3,8 @@ import GeneralCreate from "../../components/GeneralCreate";
 import OthersCreate from "../../components/OthersCreate";
 import OutlineCreate from "../../components/OutlineCreate";
 import ProcessCreate from "../../components/ProcessCreate";
+import TimeAllocation from "../../components/TimeAllocation";
+
 import "./styles/style.css";
 
 const initialDataProcess = ["General", "Outline", "Others", "Done"];
@@ -155,7 +157,9 @@ class CreateSyllabus extends React.Component {
               </div>
             </div>
           </div>
-          <div className="w-1/5 h-5"></div>
+          <div className="contentRight">
+            <TimeAllocation timeLocation={this.state.timeLocation} />
+          </div>
         </div>
       </div>
     );
