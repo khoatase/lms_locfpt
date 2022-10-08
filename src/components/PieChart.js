@@ -1,9 +1,23 @@
 import React, { Component } from "react";
+import { PieChart } from "react-minimal-pie-chart";
 
-export class PieChart extends Component {
+export class PieCharts extends Component {
   render() {
-    return <div className="pieChart">PieChart</div>;
+    const { timeLocation } = this.props;
+    const data = timeLocation.map((item) => {
+      return {
+        title: item.name,
+        value: item.percent,
+        color: item.color,
+      };
+    });
+
+    return (
+      <div className="pieChart">
+        <PieChart data={[...data]} />
+      </div>
+    );
   }
 }
 
-export default PieChart;
+export default PieCharts;

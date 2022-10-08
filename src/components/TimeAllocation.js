@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PieChart from "./PieChart";
+import { PieCharts } from "./PieChart";
 
 export class TimeAllocation extends Component {
   renderDetailTime = (data) => {
@@ -28,7 +28,7 @@ export class TimeAllocation extends Component {
       <div className="timeAllocation">
         <div className="time">
           <h3>Time allocation</h3>
-          <PieChart />
+          <PieCharts timeLocation={timeLocation} />
           <div className="timeDetails">
             {this.renderDetailTime(timeLocation)}
           </div>

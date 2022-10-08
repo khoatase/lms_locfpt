@@ -129,8 +129,10 @@ label {
 
 .general {
   border-top: 1px solid black;
-  height: 500px;
+  height: 600px;
   padding-left: 30px;
+  padding-top: 10px;
+  padding-right: 10px;
 }
 
 .timeAllocation {
@@ -142,7 +144,7 @@ label {
 
 .time {
   width: 230px;
-  height: 350px;
+  height: 360px;
   background-color: white;
   box-shadow: "1px 10px 9px #F4AAB9";
   border-radius: 20px;
@@ -159,14 +161,74 @@ label {
 
 .pieChart {
   padding: 10px 0px;
-  width: 150px;
-  height: 150px;
+  width: 170px;
+  height: 170px;
   margin: 0 auto;
 }
 
 .timeDetails {
-  width: 170px;
-  height: 150px;
+  width: 180px;
   margin: 0 auto;
   padding: 10px 0px;
+}
+
+.generalLevel,
+.generalAttendee,
+.generalTechnical,
+.generalCourse {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.generalLevel,
+.generalAttendee {
+  align-items: center;
+}
+
+.generalTechnical,
+.generalCourse {
+  flex-direction: column;
+}
+
+.generalLevel label,
+.generalAttendee label {
+  margin-right: 20px;
+}
+
+.general select,
+.general input,
+.general textarea {
+  border: 1px solid black;
+}
+
+.general select {
+  width: 300px;
+  border-radius: 10px;
+  padding: 5px 5px;
+}
+
+.generalAttendee input {
+  width: 120px;
+  padding: 3px 5px;
+  border-radius: 10px;
+}
+
+/* .generalTechnical label {
+  margin-bottom: 10px;
+} */
+
+.generalTechnical textarea {
+  border-radius: 10px;
+  height: 150px;
+  padding: 10px;
+}
+
+.editorCourse {
+  height: 280px;
+  border: 1px solid black;
+  overflow: scroll;
+}
+
+.demo-editor {
+  padding: 0px 10px;
 }
