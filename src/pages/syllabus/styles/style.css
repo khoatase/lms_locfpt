@@ -1,6 +1,9 @@
 :root {
   --color-bg-gray: #cccccc;
   --color-process-current: #1e2ede;
+  --color-btn-save: #474747;
+  --color-btn-next: #0d3b66;
+  --color-btn-cancel: #e74a3b;
 }
 
 .createSyllabus {
@@ -52,6 +55,7 @@
 .createContent {
   border-top: 1px solid black;
   display: flex;
+  margin-bottom: 20px;
 }
 
 .contentLeft {
@@ -133,25 +137,35 @@ label {
   padding-left: 30px;
   padding-top: 10px;
   padding-right: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .timeAllocation {
   width: 100%;
-  padding-top: 125px;
-  display: flex;
   justify-content: center;
 }
 
-.time {
-  width: 230px;
-  height: 360px;
+.timeHasPercent,
+.timeNoPercent,
+.training {
   background-color: white;
-  box-shadow: "1px 10px 9px #F4AAB9";
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 20px;
   overflow: hidden;
 }
 
-.time h3 {
+.timeHasPercent {
+  height: 100%;
+}
+
+.timeNoPercent {
+  height: 100%;
+}
+
+.timeHasPercent h3,
+.timeNoPercent h3,
+.assessment h3,
+.training h3 {
   text-align: center;
   padding: 5px 0;
   background-color: #2d3748;
@@ -226,9 +240,72 @@ label {
 .editorCourse {
   height: 280px;
   border: 1px solid black;
-  overflow: scroll;
+  padding: 5px;
+  border-radius: 10px;
 }
 
 .demo-editor {
   padding: 0px 10px;
+  height: 170px;
+}
+
+.footerCreate {
+  margin-bottom: 20px;
+  margin-right: 20px;
+  font-weight: 600;
+  display: flex;
+}
+
+.footerCreate button {
+  padding: 7px 30px;
+  color: white;
+}
+
+.footerCreate a {
+  color: var(--color-btn-cancel);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.save {
+  background-color: var(--color-btn-save);
+  margin: 0 20px;
+  border-radius: 10px;
+}
+
+.next {
+  background-color: var(--color-btn-next);
+  border-radius: 10px;
+}
+
+/* OtherCreate */
+
+.others {
+  padding-top: 10px;
+}
+
+.assessment {
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.calcPoint {
+  height: 216px;
+  padding: 10px 20px;
+}
+
+.training {
+  height: 51%;
+}
+
+.training h3 {
+  text-align: left;
+  padding-left: 20px;
+}
+
+.trainingEditor {
+  padding: 10px;
+  height: 92%;
 }

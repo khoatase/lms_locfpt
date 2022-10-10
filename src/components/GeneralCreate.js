@@ -35,6 +35,9 @@ export class GeneralCreate extends Component {
       course: editorState,
     });
   };
+  
+  
+
   render() {
     return (
       <div className="bg-white general">

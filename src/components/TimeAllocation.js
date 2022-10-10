@@ -14,23 +14,52 @@ export class TimeAllocation extends Component {
               marginRight: 8,
             }}
           ></div>
-          <p className="mr-4 w-32">{item.name}</p>
-          <p>({item.percent})</p>
+          <p className=" w-32">{item.name}</p>
+          <p>({item.percent}%)</p>
         </div>
       );
     });
   };
 
+  checkPercent = (data) => {
+    return data.filter((item) => item.percent > 0).length > 0 ? true : false;
+  };
+
   render() {
-    const { timeLocation } = this.props;
+    const { timeLocation, type } = this.props;
 
     return (
-      <div className="timeAllocation">
-        <div className="time">
+      <div
+        className="timeAllocation"
+        style={{
+          paddingTop: type === "right" ? 125 : 0,
+          display: type === "right" ? "flex" : "initial",
+        }}
+      >
+        <div
+          className={
+            this.checkPercent(timeLocation) ? "timeHasPercent" : "timeNoPercent"
+          }
+          style={{
+            width: type === "right" ? 230 : "100%",
+          }}
+        >
           <h3>Time allocation</h3>
-          <PieCharts timeLocation={timeLocation} />
-          <div className="timeDetails">
-            {this.renderDetailTime(timeLocation)}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: type === "right" ? "column" : "row",
+              height: type === "right" ? "100%" : 216,
+              alignItems: "center",
+            }}
+          >
+            <PieCharts
+              timeLocation={timeLocation}
+              checkPercent={this.checkPercent(timeLocation)}
+            />
+            <div className="timeDetails">
+              {this.renderDetailTime(timeLocation)}
+            </div>
           </div>
         </div>
       </div>

@@ -52,6 +52,27 @@ class CreateSyllabus extends React.Component {
   //   }
   // }
 
+  handleNextPrevious = (data) => {
+    const findIndex = initialDataProcess.findIndex(
+      (item) => item === this.state.menuCurrent
+    );
+    if (findIndex < initialDataProcess.length - 2) {
+      this.setState({
+        ...this.state,
+        menuCurrent: initialDataProcess[findIndex + data],
+        indexProcess: data > 0 ? findIndex + 2 : findIndex,
+      });
+    } else {
+      if (findIndex === initialDataProcess.length - 2) {
+        this.setState({
+          ...this.state,
+          menuCurrent: initialDataProcess[findIndex + data],
+          indexProcess: data > 0 ? findIndex + 2 : findIndex,
+        });
+      }
+    }
+  };
+
   render() {
     return (
       <div className="w-full">
@@ -152,13 +173,52 @@ class CreateSyllabus extends React.Component {
                 ) : this.state.menuCurrent === "Outline" ? (
                   <OutlineCreate />
                 ) : (
-                  <OthersCreate />
+                  <OthersCreate timeLocation={this.state.timeLocation} />
                 )}
               </div>
             </div>
           </div>
           <div className="contentRight">
-            <TimeAllocation timeLocation={this.state.timeLocation} />
+            {this.state.menuCurrent !== "Others" && (
+              <TimeAllocation
+                timeLocation={this.state.timeLocation}
+                type="right"
+              />
+            )}
+          </div>
+        </div>
+        <div
+          className="footerCreate"
+          style={{
+            justifyContent:
+              this.state.menuCurrent === "General"
+                ? "flex-end"
+                : "space-between",
+          }}
+        >
+          {this.state.menuCurrent === "General" ? null : (
+            <button
+              className="next"
+              onClick={() => {
+                this.handleNextPrevious(-1);
+              }}
+            >
+              Previous
+            </button>
+          )}
+          <div>
+            <a href="#aa">Cancel</a>
+            <button className="save">Save as draft</button>
+
+            <button
+              className="next"
+              onClick={() => {
+                if (this.state.menuCurrent !== "Others")
+                  this.handleNextPrevious(1);
+              }}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>

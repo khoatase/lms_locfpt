@@ -3,7 +3,7 @@ import { PieChart } from "react-minimal-pie-chart";
 
 export class PieCharts extends Component {
   render() {
-    const { timeLocation } = this.props;
+    const { timeLocation, checkPercent } = this.props;
     const data = timeLocation.map((item) => {
       return {
         title: item.name,
@@ -13,8 +13,8 @@ export class PieCharts extends Component {
     });
 
     return (
-      <div className="pieChart">
-        <PieChart data={[...data]} />
+      <div className={checkPercent ? "pieChart" : "pie"}>
+        {checkPercent && <PieChart data={[...data]} />}
       </div>
     );
   }
