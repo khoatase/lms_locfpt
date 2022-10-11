@@ -137,7 +137,30 @@ label {
   padding-left: 30px;
   padding-top: 10px;
   padding-right: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.outline {
+  height: 600px;
+  border-top: 1px solid black;
+  padding-right: 10px;
+  overflow-y: scroll;
+}
+
+/* .outline::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+} */
+
+.outline::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
+}
+
+.outline::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #d62929;
 }
 
 .timeAllocation {
@@ -308,4 +331,43 @@ label {
 .trainingEditor {
   padding: 10px;
   height: 92%;
+}
+
+/* Popup */
+
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+}
+.popup_inner {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 25%;
+  margin: auto;
+  background: white;
+  width: 470px;
+  height: 250px;
+  border-radius: 10px;
+  padding: 0px 20px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.headerPop {
+  border-bottom: 1px solid black;
+  padding: 10px 0;
+  align-items: baseline;
+}
+
+.popup_inner p {
+  margin-top: 20px;
 }

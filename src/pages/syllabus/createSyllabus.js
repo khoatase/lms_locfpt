@@ -2,6 +2,7 @@ import React from "react";
 import GeneralCreate from "../../components/GeneralCreate";
 import OthersCreate from "../../components/OthersCreate";
 import OutlineCreate from "../../components/OutlineCreate";
+import PopupAlert from "../../components/PopupAlert";
 import ProcessCreate from "../../components/ProcessCreate";
 import TimeAllocation from "../../components/TimeAllocation";
 
@@ -26,6 +27,7 @@ class CreateSyllabus extends React.Component {
       syllVersion: "1.0",
       menuCurrent: "General",
       timeLocation: initialDataTimeLocation,
+      showPopup: false,
     };
   }
 
@@ -72,6 +74,18 @@ class CreateSyllabus extends React.Component {
       }
     }
   };
+
+  togglePopup = () => {
+    console.log("first");
+    this.setState({
+      ...this.state,
+      showPopup: !this.state.showPopup,
+    });
+  };
+
+  saveAsDraft = () => {
+    
+  }
 
   render() {
     return (
@@ -208,8 +222,24 @@ class CreateSyllabus extends React.Component {
           )}
           <div>
             <a href="#aa">Cancel</a>
-            <button className="save">Save as draft</button>
-
+            <button className="save" onClick={this.togglePopup}>
+              Save as draft
+            </button>
+            {this.state.showPopup && (
+              <PopupAlert
+                title="Learning hours"
+                content="Learning hours of a day cannot exceed 8 hours.
+              Save and modify later?"
+                closePopup={this.togglePopup}
+                cancelBtn={{
+                  color: "#E74A3B",
+                }}
+                doActionBtn={{
+                  value: "Save as draft",
+                  color: "#0D3B66",
+                }}
+              />
+            )}
             <button
               className="next"
               onClick={() => {
