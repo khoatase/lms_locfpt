@@ -371,3 +371,22 @@ label {
 .popup_inner p {
   margin-top: 20px;
 }
+
+.unitContainer {
+  padding: 10px 30px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.unitDetailHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.unitDetailHeader div {
+  width: 80%;
+}
+
+.unitDetailHeader h3 {
+  font-weight: 600;
+}

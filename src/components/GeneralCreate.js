@@ -7,10 +7,10 @@ export class GeneralCreate extends Component {
   constructor() {
     super();
     this.state = {
-      level: null,
-      attendee: null,
-      technical: null,
-      course: EditorState.createEmpty(),
+      Level: null,
+      AttendeeNumber: null,
+      TechReq: null,
+      CourseObj: EditorState.createEmpty(),
     };
   }
 
@@ -18,7 +18,7 @@ export class GeneralCreate extends Component {
     const { name, value } = e.target;
     this.setState({
       ...this.state,
-      [name]: name === "attendee" ? +value : value,
+      [name]: name === "AttendeeNumber" ? +value : value,
     });
   };
 
@@ -32,21 +32,19 @@ export class GeneralCreate extends Component {
     // console.log(editorState.getCurrentContent().getPlainText());
     this.setState({
       ...this.state,
-      course: editorState,
+      CourseObj: editorState,
     });
   };
-  
-  
 
   render() {
     return (
       <div className="bg-white general">
         <div className="generalLevel">
-          <label htmlFor="level">Level</label>
+          <label htmlFor="Level">Level</label>
           <select
-            id="level"
-            name="level"
-            value={this.state.level}
+            id="Level"
+            name="Level"
+            value={this.state.Level}
             onChange={this.onChangeHandler}
           >
             <option>All Level</option>
@@ -55,35 +53,30 @@ export class GeneralCreate extends Component {
           </select>
         </div>
         <div className="generalAttendee">
-          <label htmlFor="attendee">Attendee number</label>
+          <label htmlFor="AttendeeNumber">AttendeeNumber number</label>
           <input
-            name="attendee"
-            id="attendee"
-            value={this.state.attendee}
+            name="AttendeeNumber"
+            id="AttendeeNumber"
+            value={this.state.AttendeeNumber}
             onChange={this.onChangeHandler}
           />
         </div>
         <div className="generalTechnical">
-          <label htmlFor="technical">Technical Requirement(s)</label>
+          <label htmlFor="TechReq">TechReq Requirement(s)</label>
           <textarea
-            name="technical"
-            id="technical"
+            name="TechReq"
+            id="TechReq"
             onKeyDown={this.onKeyDownHandler}
-            value={this.state.technical}
+            value={this.state.TechReq}
             onChange={this.onChangeHandler}
           />
         </div>
         <div className="generalCourse">
-          <label htmlFor="course">Course Objectives</label>
-          {/* <input
-            name="course"
-            id="course"
-            value={this.state.course}
-            onChange={this.onChangeHandler}
-          /> */}
+          <label htmlFor="CourseObj">CourseObj Objectives</label>
+          
           <div className="editorCourse">
             <Editor
-              editorState={this.state.course}
+              editorState={this.state.CourseObj}
               wrapperClassName="demo-wrapper"
               editorClassName="demo-editor"
               onEditorStateChange={this.onEditorStateChange}

@@ -1,58 +1,15 @@
 import React, { Component } from "react";
 import { Collapse } from "react-collapse";
 export class OutlineCreate extends Component {
-  constructor() {
-    super();
-    this.state = {
-      data: [
-        {
-          day: "Day 1",
-          isOpened: false,
-          unit: [
-            {
-              unitName: null,
-              course: [],
-            },
-          ],
-        },
-        {
-          day: "Day 2",
-          isOpened: false,
-          unit: [
-            {
-              unitName: null,
-              course: [],
-            },
-          ],
-        },
-        {
-          day: "Day 3",
-          isOpened: false,
-          unit: [
-            {
-              unitName: null,
-              course: [],
-            },
-          ],
-        },
-      ],
-    };
-  }
-  changeCollapse = (data) => {
-    const newData = [...this.state.data];
-    const findIndex = newData.findIndex((item) => item.day === data);
-    newData[findIndex].isOpened = !newData[findIndex].isOpened;
-    this.setState({
-      data: [...newData],
-    });
-  };
-  renderDay = () => {
-    const data = this.state.data;
-    return data.map((item) => {
+  renderDay = (outLineData, callback) => {
+    return outLineData.map((item, index) => {
       return (
-        <div key={item.key} style={{
-          marginBottom:2
-        }}>
+        <div
+          key={item.key}
+          style={{
+            marginBottom: 2,
+          }}
+        >
           <div
             style={{
               backgroundColor: "#2D3748",
@@ -77,7 +34,7 @@ export class OutlineCreate extends Component {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               onClick={() => {
-                this.changeCollapse(item.day);
+                callback(item.day, "day");
               }}
               style={{
                 marginRight: 10,
@@ -104,28 +61,72 @@ export class OutlineCreate extends Component {
             )}
           </div>
           <Collapse isOpened={item.isOpened}>
-            <div>Random content {item.day}</div>
+            {this.renderUnits(
+              item.unit,
+              this.countUnit(outLineData, index),
+              callback,
+              index
+            )}
           </Collapse>
         </div>
       );
     });
   };
+  renderUnits = (unit, countUnit, callback, indexDay) => {
+    //console.log(unit, countUnit);
+    return unit.map((item, index) => {
+      const { unitName, course } = item;
+      return (
+        <div className="unitDetails">
+          <div className="unitContainer">
+            <div className="unitDetailHeader">
+              <h3>Unit {countUnit - 1 + index}</h3>
+              <div>
+                <h3>{unitName}</h3>
+              </div>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                onClick={() => {
+                  callback(
+                    {
+                      indexDay,
+                      indexUnit: index,
+                    },
+                    "unit"
+                  );
+                }}
+              >
+                <path
+                  d="M10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 13L6 9H14L10 13Z"
+                  fill="#EE964B"
+                />
+              </svg>
+            </div>
+            <Collapse isOpened={item.isOpened}>
+              <h3>Hello may cung {item.unitName}</h3>
+            </Collapse>
+          </div>
+        </div>
+      );
+    });
+  };
+
+  countUnit = (outLineData, index) => {
+    if (outLineData[index].unit.length === 1 && index !== 0) {
+      return outLineData[index - 1].unit.length;
+    }
+    return outLineData[index].unit.length;
+  };
 
   render() {
+    const { outLineData, changeCollapse } = this.props;
     return (
       <div className="bg-white outline">
-        {this.renderDay()}
-        {/* <button
-          style={{
-            backgroundColor: "wheat",
-          }}
-          onClick={this.testCollase}
-        >
-          Check
-        </button>
-        <Collapse isOpened={this.state.isOpened}>
-          <div>Random content</div>
-        </Collapse> */}
+        {this.renderDay(outLineData, changeCollapse)}
       </div>
     );
   }

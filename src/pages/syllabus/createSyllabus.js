@@ -16,24 +16,58 @@ const initialDataTimeLocation = [
   { name: "Test/Quiz", percent: 0, color: "#5388D8" },
   { name: "Exam", percent: 0, color: "#206EE5" },
 ];
-
+const initialDataOUtLine = [
+  {
+    day: "Day 1",
+    isOpened: false,
+    unit: [
+      {
+        unitName: "Khoa",
+        isOpened: false,
+        course: [],
+      },
+      {
+        unitName: "Thanh",
+        isOpened: false,
+        course: [],
+      },
+    ],
+  },
+  {
+    day: "Day 2",
+    isOpened: false,
+    unit: [
+      {
+        unitName: "Bao",
+        isOpened: false,
+        course: [],
+      },
+      {
+        unitName: "Son",
+        isOpened: false,
+        course: [],
+      },
+    ],
+  },
+];
 class CreateSyllabus extends React.Component {
   constructor() {
     super();
     this.state = {
       indexProcess: 1,
-      syllName: null,
-      syllCode: "ABC",
+      SyllabusName: null,
+      SyllabusCode: "ABC",
       syllVersion: "1.0",
       menuCurrent: "General",
       timeLocation: initialDataTimeLocation,
       showPopup: false,
+      outLineData: initialDataOUtLine,
     };
   }
 
   onChangeHandler = (e) => {
     const { name, value } = e.target;
-    if (name !== "syllName") {
+    if (name !== "SyllabusName") {
       let findIndex = initialDataProcess.findIndex((item) => item === value);
       this.setState({
         ...this.state,
@@ -83,9 +117,24 @@ class CreateSyllabus extends React.Component {
     });
   };
 
-  saveAsDraft = () => {
-    
-  }
+  saveAsDraft = () => {};
+
+  changeCollapse = (data, type) => {
+    const newData = [...this.state.outLineData];
+    if (type === "day") {
+      const findIndex = newData.findIndex((item) => item.day === data);
+      newData[findIndex].isOpened = !newData[findIndex].isOpened;
+    } else {
+      const { indexDay, indexUnit } = data;
+      newData[indexDay].unit[indexUnit].isOpened =
+        !newData[indexDay].unit[indexUnit].isOpened;
+    }
+
+    this.setState({
+      ...this.state,
+      outLineData: [...newData],
+    });
+  };
 
   render() {
     return (
@@ -102,23 +151,25 @@ class CreateSyllabus extends React.Component {
             <div className="">
               <div className="flex justify-start items-center p-5">
                 <div className="syllabusName">
-                  <label className="mr-2" htmlFor="syllName">
+                  <label className="mr-2" htmlFor="SyllabusName">
                     Syllabus Name*
                   </label>
                   <input
-                    id="syllName"
-                    name="syllName"
+                    id="SyllabusName"
+                    name="SyllabusName"
                     value={
-                      this.state.syllName !== null ? this.state.syllName : ""
+                      this.state.SyllabusName !== null
+                        ? this.state.SyllabusName
+                        : ""
                     }
                     onChange={this.onChangeHandler}
                   />
                 </div>
                 <div className="syllabusCode">
-                  <label className="mr-2" htmlFor="syllCode">
+                  <label className="mr-2" htmlFor="SyllabusCode">
                     Code:
                   </label>
-                  <p>{this.state.syllCode}</p>
+                  <p>{this.state.SyllabusCode}</p>
                 </div>
                 <div className="syllabusVersion">
                   <label className="mr-2" htmlFor="syllVersion">
@@ -185,7 +236,10 @@ class CreateSyllabus extends React.Component {
                 {this.state.menuCurrent === "General" ? (
                   <GeneralCreate />
                 ) : this.state.menuCurrent === "Outline" ? (
-                  <OutlineCreate />
+                  <OutlineCreate
+                    outLineData={this.state.outLineData}
+                    changeCollapse={this.changeCollapse}
+                  />
                 ) : (
                   <OthersCreate timeLocation={this.state.timeLocation} />
                 )}
