@@ -66,6 +66,10 @@ export class PopupAlert extends Component {
                   borderRadius: "10px",
                   padding: "5px 10px",
                 }}
+                onClick={() => {
+                  doActionBtn.func(doActionBtn.indexDay);
+                  closePopup();
+                }}
               >
                 {doActionBtn.value}
               </button>

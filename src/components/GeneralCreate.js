@@ -4,39 +4,15 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 export class GeneralCreate extends Component {
-  constructor() {
-    super();
-    this.state = {
-      Level: null,
-      AttendeeNumber: null,
-      TechReq: null,
-      CourseObj: EditorState.createEmpty(),
-    };
-  }
-
-  onChangeHandler = (e) => {
-    const { name, value } = e.target;
-    this.setState({
-      ...this.state,
-      [name]: name === "AttendeeNumber" ? +value : value,
-    });
-  };
-
   onKeyDownHandler = (e) => {
     if (e.key === "Tab") {
       e.preventDefault();
     }
   };
 
-  onEditorStateChange = (editorState) => {
-    // console.log(editorState.getCurrentContent().getPlainText());
-    this.setState({
-      ...this.state,
-      CourseObj: editorState,
-    });
-  };
-
   render() {
+    const { data, onChangeHandlerGeneral, onEditorStateChange } = this.props;
+
     return (
       <div className="bg-white general">
         <div className="generalLevel">
@@ -44,8 +20,8 @@ export class GeneralCreate extends Component {
           <select
             id="Level"
             name="Level"
-            value={this.state.Level}
-            onChange={this.onChangeHandler}
+            value={data.Level}
+            onChange={onChangeHandlerGeneral}
           >
             <option>All Level</option>
             <option>All Level</option>
@@ -57,8 +33,8 @@ export class GeneralCreate extends Component {
           <input
             name="AttendeeNumber"
             id="AttendeeNumber"
-            value={this.state.AttendeeNumber}
-            onChange={this.onChangeHandler}
+            value={data.AttendeeNumber}
+            onChange={onChangeHandlerGeneral}
           />
         </div>
         <div className="generalTechnical">
@@ -67,19 +43,19 @@ export class GeneralCreate extends Component {
             name="TechReq"
             id="TechReq"
             onKeyDown={this.onKeyDownHandler}
-            value={this.state.TechReq}
-            onChange={this.onChangeHandler}
+            value={data.TechReq}
+            onChange={onChangeHandlerGeneral}
           />
         </div>
         <div className="generalCourse">
           <label htmlFor="CourseObj">CourseObj Objectives</label>
-          
+
           <div className="editorCourse">
             <Editor
-              editorState={this.state.CourseObj}
+              editorState={data.CourseObj}
               wrapperClassName="demo-wrapper"
               editorClassName="demo-editor"
-              onEditorStateChange={this.onEditorStateChange}
+              onEditorStateChange={onEditorStateChange}
             />
           </div>
         </div>

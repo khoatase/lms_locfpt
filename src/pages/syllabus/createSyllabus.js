@@ -5,6 +5,7 @@ import OutlineCreate from "../../components/OutlineCreate";
 import PopupAlert from "../../components/PopupAlert";
 import ProcessCreate from "../../components/ProcessCreate";
 import TimeAllocation from "../../components/TimeAllocation";
+import { EditorState } from "draft-js";
 
 import "./styles/style.css";
 
@@ -68,6 +69,10 @@ class CreateSyllabus extends React.Component {
       timeLocation: [...initialDataTimeLocation],
       showPopup: false,
       outLineData: initialDataOUtLine,
+      Level: null,
+      AttendeeNumber: null,
+      TechReq: null,
+      CourseObj: EditorState.createEmpty(),
     };
   }
 
@@ -88,11 +93,31 @@ class CreateSyllabus extends React.Component {
     }
   };
 
-  // styleBgColor = () => {
-  //   return {
-  //     backgroumd
-  //   }
-  // }
+  onChangeHandlerGeneral = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      ...this.state,
+      [name]: name === "AttendeeNumber" ? +value : value,
+    });
+  };
+
+  onEditorStateChange = (editorState) => {
+    //console.log(editorState.getCurrentContent().getPlainText());
+    this.setState({
+      CourseObj: editorState,
+    });
+  };
+
+  componentDidMount() {
+    const getDataSaveAsDraft = JSON.parse(
+      sessionStorage.getItem("saveAsDraft")
+    );
+    getDataSaveAsDraft.showPopup = false;
+    getDataSaveAsDraft.CourseObj = EditorState.createEmpty();
+    this.setState({
+      ...getDataSaveAsDraft,
+    });
+  }
 
   handleNextPrevious = (data) => {
     const findIndex = initialDataProcess.findIndex(
@@ -123,7 +148,10 @@ class CreateSyllabus extends React.Component {
     });
   };
 
-  saveAsDraft = () => {};
+  saveAsDraft = () => {
+    const getAllState = { ...this.state };
+    sessionStorage.setItem("saveAsDraft", JSON.stringify(getAllState));
+  };
 
   changeCollapse = (data, type) => {
     const newData = [...this.state.outLineData];
@@ -294,6 +322,24 @@ class CreateSyllabus extends React.Component {
     };
   };
 
+  handleDeleteContentOfDay = (dayIndex) => {
+    console.log(dayIndex);
+    const newOutLineData = [...this.state.outLineData];
+    newOutLineData[dayIndex].unit = [
+      {
+        unitName: null,
+        UnitNumber: null,
+        Duration: null,
+        isOpened: false,
+        contents: [],
+      },
+    ];
+
+    this.setState({
+      outLineData: [...newOutLineData],
+    });
+  };
+
   render() {
     return (
       <div className="w-full">
@@ -392,7 +438,16 @@ class CreateSyllabus extends React.Component {
                 </div>
 
                 {this.state.menuCurrent === "General" ? (
-                  <GeneralCreate />
+                  <GeneralCreate
+                    data={{
+                      Level: this.state.Level,
+                      AttendeeNumber: this.state.AttendeeNumber,
+                      TechReq: this.state.TechReq,
+                      CourseObj: this.state.CourseObj,
+                    }}
+                    onChangeHandlerGeneral={this.onChangeHandlerGeneral}
+                    onEditorStateChange={this.onEditorStateChange}
+                  />
                 ) : this.state.menuCurrent === "Outline" ? (
                   <OutlineCreate
                     outLineData={this.state.outLineData}
@@ -403,6 +458,7 @@ class CreateSyllabus extends React.Component {
                     onChangeTrainingMaterialValue={
                       this.onChangeTrainingMaterialValue
                     }
+                    handleDeleteContentOfDay={this.handleDeleteContentOfDay}
                   />
                 ) : (
                   <OthersCreate timeLocation={this.state.timeLocation} />
@@ -456,6 +512,8 @@ class CreateSyllabus extends React.Component {
                 doActionBtn={{
                   value: "Save as draft",
                   color: "#0D3B66",
+                  func: this.saveAsDraft,
+                  indexDay: null,
                 }}
               />
             )}

@@ -182,6 +182,7 @@ export class OutlineCreate extends Component {
       outputStandard: initialDataOutputStandard,
       showPopupTraining: false,
       indexShowPopup: null,
+      indexDelete: null,
     };
   }
 
@@ -205,7 +206,8 @@ export class OutlineCreate extends Component {
     callback,
     handleAdd,
     onChangeUnitNameHandler,
-    onChangeValueContent
+    onChangeValueContent,
+    handleDeleteContentOfDay
   ) => {
     return outLineData.map((item, index) => {
       return (
@@ -257,7 +259,12 @@ export class OutlineCreate extends Component {
                 viewBox="0 0 22 19"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                onClick={this.togglePopup}
+                onClick={() => {
+                  this.togglePopup();
+                  this.setState({
+                    indexDelete: index,
+                  });
+                }}
               >
                 <path
                   d="M11 3.99L18.53 17H3.47L11 3.99ZM11 0L0 19H22L11 0ZM12 14H10V16H12V14ZM12 8H10V12H12V8Z"
@@ -277,6 +284,8 @@ export class OutlineCreate extends Component {
                 doActionBtn={{
                   value: "Delete",
                   color: "#E74A3B",
+                  func: handleDeleteContentOfDay,
+                  indexDay: this.state.indexDelete,
                 }}
               />
             )}
@@ -769,6 +778,7 @@ export class OutlineCreate extends Component {
       onChangeUnitNameHandler,
       onChangeValueContent,
       onChangeTrainingMaterialValue,
+      handleDeleteContentOfDay,
     } = this.props;
     return (
       <div className="bg-white outline">
@@ -777,7 +787,8 @@ export class OutlineCreate extends Component {
           changeCollapse,
           handleAdd,
           onChangeUnitNameHandler,
-          onChangeValueContent
+          onChangeValueContent,
+          handleDeleteContentOfDay
         )}
         <button
           style={{
