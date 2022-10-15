@@ -362,6 +362,12 @@ label {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
+.trainingpop {
+  padding: 0 !important;
+  width: 600px;
+  height: 270px;
+}
+
 .headerPop {
   border-bottom: 1px solid black;
   padding: 10px 0;
@@ -384,9 +390,63 @@ label {
 }
 
 .unitDetailHeader div {
-  width: 80%;
+  width: 90%;
 }
 
 .unitDetailHeader h3 {
   font-weight: 600;
+}
+
+.headertrain {
+  width: 100%;
+  background-color: #2d3748;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  color: white;
+}
+
+.headertrain p {
+  margin-top: 0 !important;
+}
+
+.btnClose {
+  border: 1px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-bottom: 3px;
+  padding-left: 5px;
+}
+
+.unitTraining {
+  display: flex;
+  font-weight: 700;
+  padding: 0px 10px;
+}
+
+.trainingDetails {
+  background-color: #f1f1f1;
+  padding: 10px 20px;
+  height: 116px;
+  overflow-y: scroll;
+}
+
+.trainingDetails p {
+  margin-top: 0 !important;
+}
+
+.unitTraining p {
+  margin-right: 10px;
+}
+
+.btnUploadNew {
+  background-color: #0d3b66;
+  padding: 10px;
+  color: white;
+  border-radius: 10px;
+  margin-top: 10px;
 }

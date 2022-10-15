@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 
-export class DeliveryType extends Component {
+export class OutputStandard extends Component {
   render() {
-    const { data, name, onChangeValueContent, value, indexDay, indexUnit } =
+    const { name, value, onChangeValueContent, indexDay, indexUnit, data } =
       this.props;
+
     return (
       <select
         style={{
-          width: 130,
+          width: 140,
           height: 30,
           borderRadius: 10,
           margin: "0px 15px",
@@ -19,18 +20,19 @@ export class DeliveryType extends Component {
           onChangeValueContent(e, { indexDay, indexUnit });
         }}
       >
-        <option>Delivery type</option>
+        <option>Output standard</option>
         {data.map((item, index) => {
-          return (
-            <option value={item.id}>
-              {" "}
-              {item.icon} {item.name}
-            </option>
-          );
+          const {
+            OutputStandardId,
+            OutputStandardCode,
+            OutputStandardDescription,
+            OutputStandardName,
+          } = item;
+          return <option value={OutputStandardId}>{OutputStandardName}</option>;
         })}
       </select>
     );
   }
 }
 
-export default DeliveryType;
+export default OutputStandard;

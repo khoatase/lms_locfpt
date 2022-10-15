@@ -21,7 +21,14 @@ export class PopupAlert extends Component {
               />
             </svg>
 
-            <p className="ml-3">{title}</p>
+            <p
+              className="ml-3"
+              style={{
+                fontWeight: 700,
+              }}
+            >
+              {title}
+            </p>
           </div>
           <div
             style={{
@@ -29,6 +36,7 @@ export class PopupAlert extends Component {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
+              fontWeight: 700,
             }}
           >
             <p>{content}</p>
@@ -44,7 +52,8 @@ export class PopupAlert extends Component {
                 style={{
                   color: cancelBtn.color,
                   marginRight: 20,
-                  cursor: "pointer"
+                  cursor: "pointer",
+                  textDecoration: "underline",
                 }}
                 onClick={closePopup}
               >
@@ -55,6 +64,7 @@ export class PopupAlert extends Component {
                   color: "white",
                   backgroundColor: doActionBtn.color,
                   borderRadius: "10px",
+                  padding: "5px 10px",
                 }}
               >
                 {doActionBtn.value}

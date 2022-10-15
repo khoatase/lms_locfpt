@@ -10,46 +10,52 @@ import "./styles/style.css";
 
 const initialDataProcess = ["General", "Outline", "Others", "Done"];
 const initialDataTimeLocation = [
-  { name: "Assignment/Lab", percent: 0, color: "#F4BE37" },
-  { name: "Concept/Lecture", percent: 0, color: "#FF9F40" },
-  { name: "Guide/Review", percent: 0, color: "#0D2535" },
-  { name: "Test/Quiz", percent: 0, color: "#5388D8" },
-  { name: "Exam", percent: 0, color: "#206EE5" },
+  { id: 1, name: "Assignment/Lab", percent: 0, color: "#F4BE37" },
+  { id: 2, name: "Concept/Lecture", percent: 0, color: "#FF9F40" },
+  { id: 3, name: "Guide/Review", percent: 0, color: "#0D2535" },
+  { id: 4, name: "Test/Quiz", percent: 0, color: "#5388D8" },
+  { id: 5, name: "Exam", percent: 0, color: "#206EE5" },
 ];
+
+const initialTrainingMaterial = {
+  ContentId: null,
+  CreateBy: null,
+  Url: null,
+  CreatedOn: null,
+};
+
+const initialContent = {
+  ContentName: null,
+  Duration: null,
+  Session: null,
+  DeliveryTypeId: null,
+  isOnline: true,
+  OutputStandardId: null,
+  isEdit: false,
+};
+
+const initialUnit = [
+  {
+    unitName: null,
+    UnitNumber: null,
+    Duration: null,
+    isOpened: false,
+    contents: [],
+  },
+];
+
+const initialDay = {
+  day: "Day 1",
+  isOpened: false,
+  unit: [...initialUnit],
+};
+
 const initialDataOUtLine = [
   {
-    day: "Day 1",
-    isOpened: false,
-    unit: [
-      {
-        unitName: "Khoa",
-        isOpened: false,
-        course: [],
-      },
-      {
-        unitName: "Thanh",
-        isOpened: false,
-        course: [],
-      },
-    ],
-  },
-  {
-    day: "Day 2",
-    isOpened: false,
-    unit: [
-      {
-        unitName: "Bao",
-        isOpened: false,
-        course: [],
-      },
-      {
-        unitName: "Son",
-        isOpened: false,
-        course: [],
-      },
-    ],
+    ...initialDay,
   },
 ];
+
 class CreateSyllabus extends React.Component {
   constructor() {
     super();
@@ -59,7 +65,7 @@ class CreateSyllabus extends React.Component {
       SyllabusCode: "ABC",
       syllVersion: "1.0",
       menuCurrent: "General",
-      timeLocation: initialDataTimeLocation,
+      timeLocation: [...initialDataTimeLocation],
       showPopup: false,
       outLineData: initialDataOUtLine,
     };
@@ -134,6 +140,158 @@ class CreateSyllabus extends React.Component {
       ...this.state,
       outLineData: [...newData],
     });
+  };
+
+  handleAdd = (type, data) => {
+    const newDataOutLine = [...this.state.outLineData];
+    if (type === "day") {
+      const getItemDay = newDataOutLine[newDataOutLine.length - 1];
+      const newDay = {
+        day: "Day 1",
+        isOpened: false,
+        unit: [
+          {
+            unitName: null,
+            UnitNumber: null,
+            Duration: null,
+            isOpened: false,
+            contents: [],
+          },
+        ],
+      };
+      newDay.day = "Day " + (+getItemDay.day.split(" ")[1] + 1);
+      newDataOutLine.push(newDay);
+    } else if (type === "unit") {
+      newDataOutLine[data].unit.push({
+        unitName: null,
+        UnitNumber: null,
+        Duration: null,
+        isOpened: false,
+        contents: [],
+      });
+    } else {
+      const { indexDay, indexUnit } = data;
+      newDataOutLine[indexDay].unit[indexUnit].contents.forEach(
+        (item) => (item.isEdit = true)
+      );
+      newDataOutLine[indexDay].unit[indexUnit].contents.push({
+        ContentName: null,
+        Duration: null,
+        Session: null,
+        DeliveryTypeId: null,
+        isOnline: true,
+        OutputStandardId: null,
+        isEdit: false,
+        trainingMaterials: [],
+      });
+    }
+
+    this.setState({
+      ...this.state,
+      outLineData: newDataOutLine,
+    });
+  };
+
+  onChangeUnitNameHandler = (unitIndex, value, dayIndex) => {
+    // const { name, value } = e.target;
+    // const unitName = name.split("_")[0];
+    // const unitIndex = +name.split("_")[1];
+    const newOutLineData = [...this.state.outLineData];
+    // console.log({
+    //   unitIndex,
+    //   value,
+    //   dayIndex,
+    // });
+    newOutLineData[dayIndex].unit[unitIndex].unitName = value;
+    newOutLineData[dayIndex].unit[unitIndex].contents.push({
+      ContentName: null,
+      Duration: null,
+      Session: null,
+      DeliveryTypeId: null,
+      isOnline: true,
+      OutputStandardId: null,
+      isEdit: false,
+      trainingMaterials: [],
+    });
+    // this.setState({
+    //   ...this.state,
+    //   outLineData: newOutLineData,
+    // });
+  };
+
+  onChangeValueContent = (e, { indexDay, indexUnit }) => {
+    console.log(e);
+    const { name, value } = e.target;
+    const realName = name.split("_")[0];
+    const index = name.split("_")[1];
+
+    const newDataOutLine = [...this.state.outLineData];
+
+    newDataOutLine[indexDay].unit[indexUnit].contents[index][realName] = value;
+
+    if (realName === "DeliveryTypeId") {
+      this.handleCountPercent(newDataOutLine, value);
+    }
+
+    this.setState({
+      outLineData: [...newDataOutLine],
+    });
+  };
+
+  handleCountPercent = (data, value) => {
+    const newDataTimeLocation = [
+      { id: 1, name: "Assignment/Lab", percent: 0, color: "#F4BE37" },
+      { id: 2, name: "Concept/Lecture", percent: 0, color: "#FF9F40" },
+      { id: 3, name: "Guide/Review", percent: 0, color: "#0D2535" },
+      { id: 4, name: "Test/Quiz", percent: 0, color: "#5388D8" },
+      { id: 5, name: "Exam", percent: 0, color: "#206EE5" },
+      // ...initialDataTimeLocation,
+    ];
+
+    for (const day of data) {
+      for (const unit of day.unit) {
+        for (const content of unit.contents) {
+          console.log(content);
+          const findIndex = newDataTimeLocation.findIndex(
+            (item) => item.id === +content.DeliveryTypeId
+          );
+          newDataTimeLocation[findIndex].percent += 1;
+        }
+      }
+    }
+    // const findIndex = newDataTimeLocation.findIndex(
+    //   (item) => item.id === +value
+    // );
+    // newDataTimeLocation[findIndex].percent += 1;
+    // this.setState({
+    //   ...this.state,
+    //   timeLocation: newDataTimeLocation,
+    // });
+    const caclSum = newDataTimeLocation.reduce((a, b) => {
+      return a + b.percent;
+    }, 0);
+
+    newDataTimeLocation.forEach((item) => {
+      if (item.percent > 0) {
+        item.percent = Math.floor((item.percent / caclSum) * 100);
+      }
+    });
+
+    this.setState({
+      ...this.state,
+      timeLocation: [...newDataTimeLocation],
+    });
+  };
+
+  onChangeTrainingMaterialValue = (e) => {
+    const selectedFile = e.target.files[0];
+    const { name } = selectedFile;
+    const data = {
+      ContentId: null,
+      CreateBy: null,
+      Url: null,
+      CreatedOn: null,
+    };
   };
 
   render() {
@@ -239,6 +397,12 @@ class CreateSyllabus extends React.Component {
                   <OutlineCreate
                     outLineData={this.state.outLineData}
                     changeCollapse={this.changeCollapse}
+                    handleAdd={this.handleAdd}
+                    onChangeUnitNameHandler={this.onChangeUnitNameHandler}
+                    onChangeValueContent={this.onChangeValueContent}
+                    onChangeTrainingMaterialValue={
+                      this.onChangeTrainingMaterialValue
+                    }
                   />
                 ) : (
                   <OthersCreate timeLocation={this.state.timeLocation} />
@@ -279,6 +443,7 @@ class CreateSyllabus extends React.Component {
             <button className="save" onClick={this.togglePopup}>
               Save as draft
             </button>
+
             {this.state.showPopup && (
               <PopupAlert
                 title="Learning hours"
