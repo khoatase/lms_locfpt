@@ -10,6 +10,7 @@ import { EditorState } from "draft-js";
 import "./styles/style.css";
 
 const initialDataProcess = ["General", "Outline", "Others", "Done"];
+
 const initialDataTimeLocation = [
   { id: 1, name: "Assignment/Lab", percent: 0, color: "#F4BE37" },
   { id: 2, name: "Concept/Lecture", percent: 0, color: "#FF9F40" },
@@ -58,6 +59,7 @@ const initialDataOUtLine = [
 ];
 
 class CreateSyllabus extends React.Component {
+  
   constructor() {
     super();
     this.state = {
@@ -112,11 +114,13 @@ class CreateSyllabus extends React.Component {
     const getDataSaveAsDraft = JSON.parse(
       sessionStorage.getItem("saveAsDraft")
     );
-    getDataSaveAsDraft.showPopup = false;
-    getDataSaveAsDraft.CourseObj = EditorState.createEmpty();
-    this.setState({
-      ...getDataSaveAsDraft,
-    });
+    if (getDataSaveAsDraft !== null) {
+      getDataSaveAsDraft.showPopup = false;
+      getDataSaveAsDraft.CourseObj = EditorState.createEmpty();
+      this.setState({
+        ...getDataSaveAsDraft,
+      });
+    }
   }
 
   handleNextPrevious = (data) => {
