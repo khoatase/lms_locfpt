@@ -646,7 +646,7 @@ export class OutlineCreate extends Component {
             borderRadius: 10,
             margin: "10px 0",
             display: "flex",
-            alignItems: "baseline",
+            alignItems: "center",
           }}
         >
           <p
@@ -678,6 +678,9 @@ export class OutlineCreate extends Component {
             style={{
               borderRadius: 10,
               margin: "0px 10px",
+              minWidth: 80,
+              display: "flex",
+              justifyContent: "flex-end",
             }}
           >
             {item.Duration} mins
@@ -690,6 +693,7 @@ export class OutlineCreate extends Component {
               height: 30,
               borderRadius: 10,
               padding: "0px 10px",
+              margin: "0px 20px",
             }}
           >
             {item.isOnline ? "Online" : "Offline"}
@@ -705,7 +709,7 @@ export class OutlineCreate extends Component {
           > */}
           <p
             style={{
-              width: 130,
+              width: 80,
               height: 30,
               borderRadius: 10,
               margin: "0px 15px",
