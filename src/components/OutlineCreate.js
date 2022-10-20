@@ -785,7 +785,7 @@ export class OutlineCreate extends Component {
       handleDeleteContentOfDay,
     } = this.props;
     return (
-      <div className="bg-white outline">
+      <div className="bg-white outlines">
         {this.renderDay(
           outLineData,
           changeCollapse,

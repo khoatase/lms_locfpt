@@ -5,7 +5,7 @@ import OutlineCreate from "../../components/OutlineCreate";
 import PopupAlert from "../../components/PopupAlert";
 import ProcessCreate from "../../components/ProcessCreate";
 import TimeAllocation from "../../components/TimeAllocation";
-import { EditorState } from "draft-js";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 
 import "./styles/style.css";
 
@@ -59,15 +59,14 @@ const initialDataOUtLine = [
 ];
 
 class CreateSyllabus extends React.Component {
-  
   constructor() {
     super();
     this.state = {
       indexProcess: 1,
+      menuCurrent: "General",
       SyllabusName: null,
       SyllabusCode: "ABC",
       syllVersion: "1.0",
-      menuCurrent: "General",
       timeLocation: [...initialDataTimeLocation],
       showPopup: false,
       outLineData: initialDataOUtLine,
@@ -114,9 +113,19 @@ class CreateSyllabus extends React.Component {
     const getDataSaveAsDraft = JSON.parse(
       sessionStorage.getItem("saveAsDraft")
     );
+    console.log(getDataSaveAsDraft);
     if (getDataSaveAsDraft !== null) {
       getDataSaveAsDraft.showPopup = false;
-      getDataSaveAsDraft.CourseObj = EditorState.createEmpty();
+
+      if (getDataSaveAsDraft.CourseObj) {
+        const rawCourseObj = convertFromRaw(getDataSaveAsDraft.CourseObj);
+        const initEditorStateCourseObj =
+          EditorState.createWithContent(rawCourseObj);
+        getDataSaveAsDraft.CourseObj = initEditorStateCourseObj;
+      } else {
+        getDataSaveAsDraft.CourseObj = EditorState.createEmpty();
+      }
+
       this.setState({
         ...getDataSaveAsDraft,
       });
@@ -154,6 +163,13 @@ class CreateSyllabus extends React.Component {
 
   saveAsDraft = () => {
     const getAllState = { ...this.state };
+
+    getAllState.indexProcess = 1;
+    getAllState.menuCurrent = "General";
+
+    const getDataInCourseObj = getAllState.CourseObj.getCurrentContent();
+    getAllState.CourseObj = convertToRaw(getDataInCourseObj);
+
     sessionStorage.setItem("saveAsDraft", JSON.stringify(getAllState));
   };
 
