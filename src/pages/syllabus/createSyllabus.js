@@ -17,6 +17,7 @@ const initialDataTimeLocation = [
   { id: 3, name: "Guide/Review", percent: 0, color: "#0D2535" },
   { id: 4, name: "Test/Quiz", percent: 0, color: "#5388D8" },
   { id: 5, name: "Exam", percent: 0, color: "#206EE5" },
+  { id: 6, name: "Seminar", percent: 0, color: "red" },
 ];
 
 const initialTrainingMaterial = {
@@ -43,6 +44,7 @@ const initialUnit = [
     Duration: null,
     isOpened: false,
     contents: [],
+    isEdit: false,
   },
 ];
 
@@ -113,7 +115,7 @@ class CreateSyllabus extends React.Component {
     const getDataSaveAsDraft = JSON.parse(
       sessionStorage.getItem("saveAsDraft")
     );
-    console.log(getDataSaveAsDraft);
+
     if (getDataSaveAsDraft !== null) {
       getDataSaveAsDraft.showPopup = false;
 
@@ -192,46 +194,128 @@ class CreateSyllabus extends React.Component {
 
   handleAdd = (type, data) => {
     const newDataOutLine = [...this.state.outLineData];
-    if (type === "day") {
-      const getItemDay = newDataOutLine[newDataOutLine.length - 1];
-      const newDay = {
-        day: "Day 1",
-        isOpened: false,
-        unit: [
-          {
-            unitName: null,
-            UnitNumber: null,
-            Duration: null,
-            isOpened: false,
-            contents: [],
-          },
-        ],
-      };
-      newDay.day = "Day " + (+getItemDay.day.split(" ")[1] + 1);
-      newDataOutLine.push(newDay);
-    } else if (type === "unit") {
-      newDataOutLine[data].unit.push({
-        unitName: null,
-        UnitNumber: null,
-        Duration: null,
-        isOpened: false,
-        contents: [],
+    const checkValidate = this.checkValidateAdd(type, data);
+    console.log(checkValidate);
+    if (checkValidate) {
+      if (type === "day") {
+        const getItemDay = newDataOutLine[newDataOutLine.length - 1];
+        const newDay = {
+          day: "Day 1",
+          isOpened: false,
+          unit: [
+            {
+              unitName: null,
+              UnitNumber: null,
+              Duration: null,
+              isOpened: false,
+              contents: [],
+              isEdit: false,
+            },
+          ],
+        };
+        newDay.day = "Day " + (+getItemDay.day.split(" ")[1] + 1);
+        newDataOutLine.push(newDay);
+      } else if (type === "unit") {
+        newDataOutLine[data].unit.push({
+          unitName: null,
+          UnitNumber: null,
+          Duration: null,
+          isOpened: false,
+          contents: [],
+          isEdit: false,
+        });
+      } else {
+        const { indexDay, indexUnit } = data;
+        // newDataOutLine[indexDay].unit[indexUnit].contents.forEach(
+        //   (item) => (item.isEdit = true)
+        // );
+        newDataOutLine[indexDay].unit[indexUnit].contents.push({
+          ContentName: null,
+          Duration: null,
+          Session: null,
+          DeliveryTypeId: null,
+          isOnline: true,
+          OutputStandardId: null,
+          isEdit: false,
+          trainingMaterials: [],
+        });
+      }
+
+      this.setState({
+        ...this.state,
+        outLineData: newDataOutLine,
       });
+    }
+  };
+
+  checkValidateAdd = (type, data) => {
+    const newDataOutline = [...this.state.outLineData];
+    if (type === "day") {
+      for (const day of newDataOutline) {
+        for (const unit of day.unit) {
+          if (unit.unitName === null || unit.isEdit == false) {
+            return false;
+          } else {
+            for (const content of unit.contents) {
+              if (content.ContentName === null || content.isEdit == false) {
+                return false;
+              }
+            }
+          }
+        }
+      }
+    } else if (type === "unit") {
+      // data is index day
+      // newDataOutline[data].unit.forEach((item) => {
+      //   if (item.unitName === null) {
+      //     return false;
+      //   } else {
+      //     console.log(item);
+      //   }
+      // });
+      //
+      for (const unit of newDataOutline[data].unit) {
+        if (unit.unitName === null || unit.isEdit == false) {
+          return false;
+        } else {
+          for (const content of unit.contents) {
+            if (content.ContentName === null || content.isEdit == false) {
+              return false;
+            }
+          }
+        }
+      }
     } else {
       const { indexDay, indexUnit } = data;
-      newDataOutLine[indexDay].unit[indexUnit].contents.forEach(
-        (item) => (item.isEdit = true)
-      );
-      newDataOutLine[indexDay].unit[indexUnit].contents.push({
-        ContentName: null,
-        Duration: null,
-        Session: null,
-        DeliveryTypeId: null,
-        isOnline: true,
-        OutputStandardId: null,
-        isEdit: false,
-        trainingMaterials: [],
-      });
+      if (indexUnit !== 0) {
+        for (const content of newDataOutline[indexDay].unit[indexUnit - 1]
+          .contents) {
+          if (content.ContentName === null || content.isEdit == false) {
+            return false;
+          }
+        }
+      }
+      for (const content of newDataOutline[indexDay].unit[indexUnit].contents) {
+        if (content.ContentName === null || content.isEdit == false) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  saveContentAdd = (type, data, indexContent) => {
+    const newDataOutLine = [...this.state.outLineData];
+    const { indexDay, indexUnit } = data;
+    console.log({ type, data });
+    if (type === "Add") {
+      newDataOutLine[indexDay].unit[indexUnit].contents[
+        indexContent
+      ].isEdit = true;
+    } else {
+      newDataOutLine[indexDay].unit[indexUnit].contents[
+        indexContent
+      ].isEdit = false;
     }
 
     this.setState({
@@ -240,31 +324,42 @@ class CreateSyllabus extends React.Component {
     });
   };
 
-  onChangeUnitNameHandler = (unitIndex, value, dayIndex) => {
+  onChangeUnitNameHandler = (e, unitIndex, dayIndex, type, unitName) => {
     // const { name, value } = e.target;
     // const unitName = name.split("_")[0];
     // const unitIndex = +name.split("_")[1];
     const newOutLineData = [...this.state.outLineData];
+    if (type === "saveValue") {
+      const { name, value } = e.target;
+      newOutLineData[dayIndex].unit[unitIndex].unitName = value;
+    } else if (type === "Create") {
+      newOutLineData[dayIndex].unit[unitIndex].isEdit = true;
+      // console.log(unitName);
+      // if (unitName === null)
+      //   newOutLineData[dayIndex].unit[unitIndex].contents.push({
+      //     ContentName: null,
+      //     Duration: null,
+      //     Session: null,
+      //     DeliveryTypeId: null,
+      //     isOnline: true,
+      //     OutputStandardId: null,
+      //     isEdit: false,
+      //     trainingMaterials: [],
+      //   });
+    } else if (type === "Edit") {
+      newOutLineData[dayIndex].unit[unitIndex].isEdit = false;
+    }
     // console.log({
     //   unitIndex,
     //   value,
     //   dayIndex,
     // });
-    newOutLineData[dayIndex].unit[unitIndex].unitName = value;
-    newOutLineData[dayIndex].unit[unitIndex].contents.push({
-      ContentName: null,
-      Duration: null,
-      Session: null,
-      DeliveryTypeId: null,
-      isOnline: true,
-      OutputStandardId: null,
-      isEdit: false,
-      trainingMaterials: [],
+    // newOutLineData[dayIndex].unit[unitIndex].unitName = value;
+
+    this.setState({
+      ...this.state,
+      outLineData: newOutLineData,
     });
-    // this.setState({
-    //   ...this.state,
-    //   outLineData: newOutLineData,
-    // });
   };
 
   onChangeValueContent = (e, { indexDay, indexUnit }) => {
@@ -293,6 +388,7 @@ class CreateSyllabus extends React.Component {
       { id: 3, name: "Guide/Review", percent: 0, color: "#0D2535" },
       { id: 4, name: "Test/Quiz", percent: 0, color: "#5388D8" },
       { id: 5, name: "Exam", percent: 0, color: "#206EE5" },
+      { id: 6, name: "Seminar", percent: 0, color: "red" },
       // ...initialDataTimeLocation,
     ];
 
@@ -479,6 +575,7 @@ class CreateSyllabus extends React.Component {
                       this.onChangeTrainingMaterialValue
                     }
                     handleDeleteContentOfDay={this.handleDeleteContentOfDay}
+                    saveContentAdd={this.saveContentAdd}
                   />
                 ) : (
                   <OthersCreate timeLocation={this.state.timeLocation} />

@@ -42,7 +42,12 @@ export class PopupTrainingMaterial extends Component {
 
                     })
                 } */}
-                <div className="flex">
+                <div
+                  className="flex"
+                  style={{
+                    alignItems: "center",
+                  }}
+                >
                   <p
                     style={{
                       width: "50%",
@@ -50,13 +55,19 @@ export class PopupTrainingMaterial extends Component {
                   >
                     .Net Introduction overview.pdf
                   </p>
-                  <p>By Joseph on 12/3/2012</p>
+                  <p
+                    style={{
+                      width: "40%",
+                    }}
+                  >
+                    By Joseph on 12/3/2012
+                  </p>
                   <img
                     src="./icons8-delete-48.png"
                     alt="a"
                     style={{
-                      width: 30,
-                      height: 30,
+                      width: 20,
+                      height: 20,
                       margin: "0 10px",
                     }}
                   />
@@ -64,15 +75,21 @@ export class PopupTrainingMaterial extends Component {
                     src="./icons8-edit-30.png"
                     alt="b"
                     style={{
-                      width: 30,
-                      height: 30,
+                      width: 20,
+                      height: 20,
                     }}
                   />
                 </div>
               </div>
             </div>
             <div className="flex justify-center">
-              <label className="btnUploadNew" htmlFor="fileAva">
+              <label
+                className="btnUploadNew"
+                htmlFor="fileAva"
+                style={{
+                  cursor: "pointer",
+                }}
+              >
                 Upload new
               </label>
               <input

@@ -109,7 +109,7 @@ const intitialDataDeliveryType = [
   },
   {
     id: 6,
-    name: "Seminar/Workshop",
+    name: "Seminar",
     icon: (
       <svg
         width="22"
@@ -176,7 +176,6 @@ export class OutlineCreate extends Component {
   constructor() {
     super();
     this.state = {
-      unitName: null,
       showPopup: false,
       deliveryType: intitialDataDeliveryType,
       outputStandard: initialDataOutputStandard,
@@ -193,13 +192,13 @@ export class OutlineCreate extends Component {
     });
   };
 
-  onChangeHandler = (e) => {
-    const { name, value } = e.target;
-    const unitName = name.split("_")[0];
-    this.setState({
-      [unitName]: value,
-    });
-  };
+  // onChangeHandler = (e) => {
+  //   const { name, value } = e.target;
+  //   const unitName = name.split("_")[0];
+  //   this.setState({
+  //     [unitName]: value,
+  //   });
+  // };
 
   renderDay = (
     outLineData,
@@ -207,7 +206,8 @@ export class OutlineCreate extends Component {
     handleAdd,
     onChangeUnitNameHandler,
     onChangeValueContent,
-    handleDeleteContentOfDay
+    handleDeleteContentOfDay,
+    saveContentAdd
   ) => {
     return outLineData.map((item, index) => {
       return (
@@ -298,7 +298,8 @@ export class OutlineCreate extends Component {
               index,
               onChangeUnitNameHandler,
               handleAdd,
-              onChangeValueContent
+              onChangeValueContent,
+              saveContentAdd
             )}
             <div className="unitContainer">
               <button
@@ -345,10 +346,12 @@ export class OutlineCreate extends Component {
     indexDay,
     onChangeUnitNameHandler,
     handleAdd,
-    onChangeValueContent
+    onChangeValueContent,
+    saveContentAdd
   ) => {
     return unit.map((item, index) => {
-      const { unitName, contents } = item;
+      const { unitName, contents, isEdit } = item;
+
       return (
         <div
           className="unitDetails"
@@ -360,7 +363,7 @@ export class OutlineCreate extends Component {
             <div className="unitDetailHeader">
               <h3>Unit {countUnit - 1 + index}</h3>
 
-              {unitName !== null ? (
+              {isEdit ? (
                 <div
                   style={{
                     display: "flex",
@@ -378,6 +381,9 @@ export class OutlineCreate extends Component {
                     <p>7Hrs</p>
                   </div>
                   <svg
+                    onClick={() => {
+                      onChangeUnitNameHandler(null, index, indexDay, "Edit");
+                    }}
                     width="44"
                     height="30"
                     viewBox="0 0 44 30"
@@ -425,8 +431,14 @@ export class OutlineCreate extends Component {
                       placeholder="Type unit name"
                       name={"unitName_" + index}
                       id={"unitName_" + index}
+                      value={unitName}
                       onChange={(e) => {
-                        this.onChangeHandler(e);
+                        onChangeUnitNameHandler(
+                          e,
+                          index,
+                          indexDay,
+                          "saveValue"
+                        );
                       }}
                     />
                     <button
@@ -439,13 +451,12 @@ export class OutlineCreate extends Component {
                       }}
                       onClick={() => {
                         onChangeUnitNameHandler(
+                          null,
                           index,
-                          this.state.unitName,
-                          indexDay
+                          indexDay,
+                          "Create",
+                          unitName
                         );
-                        this.setState({
-                          unitName: null,
-                        });
                       }}
                     >
                       Create
@@ -489,7 +500,8 @@ export class OutlineCreate extends Component {
                   {
                     indexDay,
                     indexUnit: index,
-                  }
+                  },
+                  saveContentAdd
                 )}
                 <button
                   onClick={() => {
@@ -500,6 +512,9 @@ export class OutlineCreate extends Component {
                   }}
                 >
                   <svg
+                    style={{
+                      marginTop: 10,
+                    }}
                     width="28"
                     height="28"
                     viewBox="0 0 28 28"
@@ -533,7 +548,13 @@ export class OutlineCreate extends Component {
     });
   };
 
-  renderContents = (contents, bgColor, onChangeValueContent, indexDayUnit) => {
+  renderContents = (
+    contents,
+    bgColor,
+    onChangeValueContent,
+    indexDayUnit,
+    saveContentAdd
+  ) => {
     const { indexDay, indexUnit } = indexDayUnit;
     return contents.map((item, index) => {
       return !item.isEdit ? (
@@ -574,7 +595,7 @@ export class OutlineCreate extends Component {
               width: 50,
               height: 30,
               borderRadius: 10,
-              margin: "0px 10px",
+              margin: "0px 5px",
               padding: "0px 5px",
               border: "1px solid black",
             }}
@@ -637,6 +658,21 @@ export class OutlineCreate extends Component {
               fill="#EE964B"
             />
           </svg>
+          <button
+            onClick={() => {
+              saveContentAdd("Add", indexDayUnit, index);
+            }}
+            style={{
+              padding: "5px 15px",
+              backgroundColor: "#2D3748",
+              color: "white",
+              fontWeight: 600,
+              margin: "0 8px",
+              borderRadius: 10,
+            }}
+          >
+            Save
+          </button>
         </div>
       ) : (
         <div
@@ -742,6 +778,21 @@ export class OutlineCreate extends Component {
               fill="#EE964B"
             />
           </svg>
+          <button
+            style={{
+              padding: "5px 10px",
+              backgroundColor: "#2D3748",
+              color: "white",
+              fontWeight: 600,
+              margin: "0 8px",
+              borderRadius: 10,
+            }}
+            onClick={() => {
+              saveContentAdd("Update", indexDayUnit, index);
+            }}
+          >
+            Update
+          </button>
         </div>
       );
     });
@@ -783,6 +834,7 @@ export class OutlineCreate extends Component {
       onChangeValueContent,
       onChangeTrainingMaterialValue,
       handleDeleteContentOfDay,
+      saveContentAdd,
     } = this.props;
     return (
       <div className="bg-white outlines">
@@ -792,7 +844,8 @@ export class OutlineCreate extends Component {
           handleAdd,
           onChangeUnitNameHandler,
           onChangeValueContent,
-          handleDeleteContentOfDay
+          handleDeleteContentOfDay,
+          saveContentAdd
         )}
         <button
           style={{

@@ -11,7 +11,7 @@ export class OutputStandard extends Component {
           width: 140,
           height: 30,
           borderRadius: 10,
-          margin: "0px 15px",
+          margin: "0px 5px",
           border: "1px solid black",
         }}
         name={name}
