@@ -468,7 +468,7 @@ class CreateSyllabus extends React.Component {
           const findIndex = newDataTimeLocation.findIndex(
             (item) => item.id === +content.DeliveryTypeId
           );
-          newDataTimeLocation[findIndex].percent += 1;
+          newDataTimeLocation[findIndex].percent += +content.Duration;
         }
       }
     }
