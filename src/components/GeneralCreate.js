@@ -55,7 +55,9 @@ export class GeneralCreate extends Component {
               editorState={data.CourseObj}
               wrapperClassName="demo-wrapper"
               editorClassName="demo-editor"
-              onEditorStateChange={onEditorStateChange}
+              onEditorStateChange={(e) => {
+                onEditorStateChange(e, "CourseObj");
+              }}
             />
           </div>
         </div>

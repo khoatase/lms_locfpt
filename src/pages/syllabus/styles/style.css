@@ -262,7 +262,7 @@ label {
 
 .editorCourse {
   height: 280px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   padding: 5px;
   border-radius: 10px;
 }
@@ -321,6 +321,7 @@ label {
 
 .training {
   height: 51%;
+  overflow: scroll;
 }
 
 .training h3 {
@@ -449,4 +450,9 @@ label {
   color: white;
   border-radius: 10px;
   margin-top: 10px;
+}
+
+.demo-wrapper {
+  border: 1px solid black;
+  border-radius: 5px;
 }

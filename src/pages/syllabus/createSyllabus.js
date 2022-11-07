@@ -76,6 +76,11 @@ class CreateSyllabus extends React.Component {
       AttendeeNumber: null,
       TechReq: null,
       CourseObj: EditorState.createEmpty(),
+      trainingValue: EditorState.createEmpty(),
+      reTestValue: EditorState.createEmpty(),
+      markingValue: EditorState.createEmpty(),
+      waiverValue: EditorState.createEmpty(),
+      otherValue: EditorState.createEmpty(),
     };
   }
 
@@ -104,10 +109,10 @@ class CreateSyllabus extends React.Component {
     });
   };
 
-  onEditorStateChange = (editorState) => {
+  onEditorStateChange = (editorState, name) => {
     //console.log(editorState.getCurrentContent().getPlainText());
     this.setState({
-      CourseObj: editorState,
+      [name]: editorState,
     });
   };
 
@@ -117,8 +122,7 @@ class CreateSyllabus extends React.Component {
     );
 
     if (getDataSaveAsDraft !== null) {
-      getDataSaveAsDraft.showPopup = false;
-
+      // CourseObj
       if (getDataSaveAsDraft.CourseObj) {
         const rawCourseObj = convertFromRaw(getDataSaveAsDraft.CourseObj);
         const initEditorStateCourseObj =
@@ -128,6 +132,55 @@ class CreateSyllabus extends React.Component {
         getDataSaveAsDraft.CourseObj = EditorState.createEmpty();
       }
 
+      // trainingValue
+      if (getDataSaveAsDraft.trainingValue) {
+        const rawCourseObj = convertFromRaw(getDataSaveAsDraft.trainingValue);
+        const initEditorStateCourseObj =
+          EditorState.createWithContent(rawCourseObj);
+        getDataSaveAsDraft.trainingValue = initEditorStateCourseObj;
+      } else {
+        getDataSaveAsDraft.trainingValue = EditorState.createEmpty();
+      }
+
+      // reTestValue
+      if (getDataSaveAsDraft.reTestValue) {
+        const rawCourseObj = convertFromRaw(getDataSaveAsDraft.reTestValue);
+        const initEditorStateCourseObj =
+          EditorState.createWithContent(rawCourseObj);
+        getDataSaveAsDraft.reTestValue = initEditorStateCourseObj;
+      } else {
+        getDataSaveAsDraft.reTestValue = EditorState.createEmpty();
+      }
+      // markingValue
+      if (getDataSaveAsDraft.markingValue) {
+        const rawCourseObj = convertFromRaw(getDataSaveAsDraft.markingValue);
+        const initEditorStateCourseObj =
+          EditorState.createWithContent(rawCourseObj);
+        getDataSaveAsDraft.markingValue = initEditorStateCourseObj;
+      } else {
+        getDataSaveAsDraft.markingValue = EditorState.createEmpty();
+      }
+      // waiverValue
+      if (getDataSaveAsDraft.waiverValue) {
+        const rawCourseObj = convertFromRaw(getDataSaveAsDraft.waiverValue);
+        const initEditorStateCourseObj =
+          EditorState.createWithContent(rawCourseObj);
+        getDataSaveAsDraft.waiverValue = initEditorStateCourseObj;
+      } else {
+        getDataSaveAsDraft.waiverValue = EditorState.createEmpty();
+      }
+      // otherValue
+
+      if (getDataSaveAsDraft.otherValue) {
+        const rawCourseObj = convertFromRaw(getDataSaveAsDraft.otherValue);
+        const initEditorStateCourseObj =
+          EditorState.createWithContent(rawCourseObj);
+        getDataSaveAsDraft.otherValue = initEditorStateCourseObj;
+      } else {
+        getDataSaveAsDraft.otherValue = EditorState.createEmpty();
+      }
+
+      getDataSaveAsDraft.showPopup = false;
       this.setState({
         ...getDataSaveAsDraft,
       });
@@ -169,8 +222,25 @@ class CreateSyllabus extends React.Component {
     getAllState.indexProcess = 1;
     getAllState.menuCurrent = "General";
 
+    // CourseObj
     const getDataInCourseObj = getAllState.CourseObj.getCurrentContent();
     getAllState.CourseObj = convertToRaw(getDataInCourseObj);
+    // trainingValue
+    const getDataIntrainingValue =
+      getAllState.trainingValue.getCurrentContent();
+    getAllState.trainingValue = convertToRaw(getDataIntrainingValue);
+    // reTestValue
+    const getDataInreTestValue = getAllState.reTestValue.getCurrentContent();
+    getAllState.reTestValue = convertToRaw(getDataInreTestValue);
+    // markingValue
+    const getDataInmarkingValue = getAllState.markingValue.getCurrentContent();
+    getAllState.markingValue = convertToRaw(getDataInmarkingValue);
+    // waiverValue
+    const getDataInwaiverValue = getAllState.waiverValue.getCurrentContent();
+    getAllState.waiverValue = convertToRaw(getDataInwaiverValue);
+    // otherValue
+    const getDataInotherValue = getAllState.otherValue.getCurrentContent();
+    getAllState.otherValue = convertToRaw(getDataInotherValue);
 
     sessionStorage.setItem("saveAsDraft", JSON.stringify(getAllState));
   };
@@ -395,7 +465,6 @@ class CreateSyllabus extends React.Component {
     for (const day of data) {
       for (const unit of day.unit) {
         for (const content of unit.contents) {
-          console.log(content);
           const findIndex = newDataTimeLocation.findIndex(
             (item) => item.id === +content.DeliveryTypeId
           );
@@ -578,7 +647,15 @@ class CreateSyllabus extends React.Component {
                     saveContentAdd={this.saveContentAdd}
                   />
                 ) : (
-                  <OthersCreate timeLocation={this.state.timeLocation} />
+                  <OthersCreate
+                    timeLocation={this.state.timeLocation}
+                    trainingValue={this.state.trainingValue}
+                    reTestValue={this.state.reTestValue}
+                    markingValue={this.state.markingValue}
+                    waiverValue={this.state.waiverValue}
+                    otherValue={this.state.otherValue}
+                    onEditorStateChange={this.onEditorStateChange}
+                  />
                 )}
               </div>
             </div>
