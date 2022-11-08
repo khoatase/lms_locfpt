@@ -7,7 +7,7 @@ class ProcessCreate extends React.Component {
 
   renderDataProcess = (data) => {
     return data.map((item) => {
-      return <p>{item}</p>;
+      return <p>{item.name}</p>;
     });
   };
   calcWidthProcess = (indexProcess) => {
@@ -24,6 +24,7 @@ class ProcessCreate extends React.Component {
           className="h-3 absolute top-0 left-0 flex items-center justify-end processCurrent"
           style={{
             width: `${this.calcWidthProcess(indexProcess)}px`,
+            backgroundColor: data[indexProcess - 1].color,
           }}
         >
           <div className="w-3 h-3 float-right bg-white mr-0 circlePoint"></div>

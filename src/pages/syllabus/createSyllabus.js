@@ -9,7 +9,12 @@ import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 
 import "./styles/style.css";
 
-const initialDataProcess = ["General", "Outline", "Others", "Done"];
+const initialDataProcess = [
+  { name: "General", color: "#2D3748" },
+  { name: "Outline", color: "#285D9A" },
+  { name: "Others", color: "#D45B13" },
+  { name: "Done", color: "#2F903F" },
+];
 
 const initialDataTimeLocation = [
   { id: 1, name: "Assignment/Lab", percent: 0, color: "#F4BE37" },
@@ -87,7 +92,7 @@ class CreateSyllabus extends React.Component {
   onChangeHandler = (e) => {
     const { name, value } = e.target;
     if (name !== "SyllabusName") {
-      let findIndex = initialDataProcess.findIndex((item) => item === value);
+      let findIndex = initialDataProcess.findIndex((item) => item.name === value);
       this.setState({
         ...this.state,
         [name]: value,
@@ -189,19 +194,19 @@ class CreateSyllabus extends React.Component {
 
   handleNextPrevious = (data) => {
     const findIndex = initialDataProcess.findIndex(
-      (item) => item === this.state.menuCurrent
+      (item) => item.name === this.state.menuCurrent
     );
     if (findIndex < initialDataProcess.length - 2) {
       this.setState({
         ...this.state,
-        menuCurrent: initialDataProcess[findIndex + data],
+        menuCurrent: initialDataProcess[findIndex + data].name,
         indexProcess: data > 0 ? findIndex + 2 : findIndex,
       });
     } else {
       if (findIndex === initialDataProcess.length - 2) {
         this.setState({
           ...this.state,
-          menuCurrent: initialDataProcess[findIndex + data],
+          menuCurrent: initialDataProcess[findIndex + data].name,
           indexProcess: data > 0 ? findIndex + 2 : findIndex,
         });
       }

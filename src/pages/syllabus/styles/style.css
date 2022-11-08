@@ -40,7 +40,7 @@
 }
 
 .processCurrent {
-  background-color: var(--color-process-current);
+  /* background-color: var(--color-process-current); */
   border-radius: 10px;
   height: 14px;
 }
